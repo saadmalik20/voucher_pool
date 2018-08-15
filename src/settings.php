@@ -1,4 +1,5 @@
 <?php
+require '../config.php';
 return [
     'settings' => [
         'determineRouteBeforeAppMiddleware' => false,

@@ -1,27 +1,34 @@
-# Slim Framework 3 Skeleton Application
+# Voucher Pool with slim Framework
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
+## Prerequisites:
+- PHP >= 7.1.3
+- Lumen 5.6.3
+- Mod Rewrite Enabled
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Deployment:
+- Run composer install, to cover all dependencies (if you dont have all vendors inside `vendors/` directory)
 
-## Install the Application
+> $ composer install 
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+- Run migration command for databse migration 
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
+> $ php vendor/bin/phinx migrate -c config-phinx.php
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+## Sample Request:
+- URL: http://localhost/voucher_pool/public/vouchers/generate
+- METHOD: GET
+- JSON REQUEST: {"amount":"230"}
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
+## Tests
+Go to project directory in terminal and execute below command:
 
-To run the application in development, you can run these commands 
+> $ vendor/bin/phpunit
 
-	cd [my-app-name]
-	php composer.phar start
+## API Documentation
+API documentation is provided inside apidoc/index.html file for details
 
-Run this command in the application directory to run the test suite
+Note: You may also regenerate by using below command:
 
-	php composer.phar test
+> $ sudo npm install apidoc -g   # If not already installed
 
-That's it! Now go build something cool.
+> $ apidoc -i app/Http/Controllers/ -o apidoc/

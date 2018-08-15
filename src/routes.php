@@ -1,19 +1,15 @@
 <?php
-
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-// Routes
+// Post : Create recipient
+$app->post('/recipient', 'VoucherPool\Controllers\RecipientController::create')->setName('Recipient');
 
-$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
+// Get : Voucher - code and email check its valid
+$app->get('/voucher', 'VoucherPool\Controllers\VouchersController::redeem')->setName('Vouchers');
 
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
-});
+// Get : Voucher/Generate - for each recipient with expiration date
+$app->get('/vouchers/generate', 'VoucherPool\Controllers\VouchersController::generate')->setName('Generate Vouchers');
 
-
-// Generate Voucher
-
-// 
+// Get : Voucher/Email - list all voucher of email
+$app->get('/vouchers/byemail', 'VoucherPool\Controllers\VouchersController::ByEmail')->setName('Voucher by Email');
