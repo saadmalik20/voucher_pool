@@ -45,17 +45,15 @@ class RecipientController
 		$postData = $request->getParsedBody();
 		if(empty($postData['name']) || empty($postData['email']))
 		{
-			$response = ResponseHelper::json(["Recipient name and email are required"], $response, 400);
-			return $response;
+			return ResponseHelper::json(["Recipient name and email are required"], $response, 400);
 		}
 		
-		$recipient = new RecipientModel(array(
+		$recipient = new RecipientModel([
 			'name' => $postData['name'],
 			'email' => $postData['email'],
-		));
+		]);
 		$recipient->save();
 		
-		$response = ResponseHelper::json(["Recipient created succesfully"], $response);
-		return $response;
+		return ResponseHelper::json(["Recipient created succesfully"], $response);
 	}
 }

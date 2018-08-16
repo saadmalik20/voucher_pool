@@ -44,15 +44,16 @@ class VouchersController
      */
     public static function generate(Request $request, Response $response)
 	{
+		
 		$queryData = $request->getQueryParams();
+		
 		if(empty($queryData['discount']) || empty($queryData['expire_at']))
 		{
-			$response = ResponseHelper::json(["Discount and expire date are required"], $response, 400);
-			return $response;
+			return ResponseHelper::json(["Discount and expire date are required"], $response, 400);
 		}
 
 		$recipientList = RecipientModel::all();
-		$voucherList = VoucherModel::all();
+		$voucherList = VoucherModel::all()->toArray();
 
 		foreach($recipientList as $recipient)
 		{
@@ -68,22 +69,22 @@ class VouchersController
 					break;
 				}
 			}
-			$voucherModel = new VoucherModel(array(
+
+			$voucherModel = new VoucherModel([
 				'code' => $discountCode,
 				'discount' => $queryData['discount'],
 				'expire_at' => date('Y-m-d', strtotime($queryData['expire_at']))
-			));
+			]);
 			$voucherModel->save();
 			
-			$voucherRecipientModel = new VoucherRecipientModel(array(
+			$voucherRecipientModel = new VoucherRecipientModel([
 				'voucher_id' => $voucherModel->id,
 				'recipient_id' => $recipient->id
-			));
+			]);
 			$voucherRecipientModel->save();
 		}
 
-		$response = ResponseHelper::json(["Vouchers generated succesfully"], $response);
-		return $response;
+		return ResponseHelper::json(["Vouchers generated succesfully"], $response);
 	}
 
 
@@ -125,11 +126,11 @@ class VouchersController
 
 		if(empty($queryData['email']) || empty($queryData['code']))
 		{
-			$response = ResponseHelper::json(["Email and code are required"], $response, 400);
-			return $response;
+			return ResponseHelper::json(["Email and code are required"], $response, 400);
 		}
 
-		$checkVoucher = VoucherModel::where("vouchers.code", $queryData['code'])
+		$checkVoucher = VoucherModel::select("vouchers.id", "vouchers.discount")
+				->where("vouchers.code", $queryData['code'])
 				->join('voucher_recipient', 'vouchers.id', '=', 'voucher_recipient.voucher_id')
 				->join('recipient', 'recipient.id', '=', 'voucher_recipient.recipient_id')
 				->where("vouchers.is_used", 0)
@@ -144,12 +145,10 @@ class VouchersController
 
 			$updateVoucher->save();
 
-			$response = ResponseHelper::json(["percentage" => $checkVoucher->discount], $response);
-			return $response;
+			return ResponseHelper::json(["percentage" => $checkVoucher->discount], $response);
 		}
 
-		$response = ResponseHelper::json(["Voucher not found"], $response, 400);
-		return $response;
+		return ResponseHelper::json(["Voucher not found"], $response, 400);
 	}
 	
 	/**
@@ -194,8 +193,7 @@ class VouchersController
 
 		if(empty($queryData['email']))
 		{
-			$response = ResponseHelper::json(["Email is required"], $response, 400);
-			return $response;
+			return ResponseHelper::json(["Email is required"], $response, 400);
 		}
 
 		$emailVoucherList = RecipientModel::where("recipient.email", $queryData['email'])
@@ -215,11 +213,9 @@ class VouchersController
 					"discount" => $emailVoucher->discount."%",
 				];
 			}
-			$response = ResponseHelper::json($responseData, $response);
-			return $response;
+			return ResponseHelper::json($responseData, $response);
 		}
 
-		$response = ResponseHelper::json(["Vouchers not found"], $response, 400);
-		return $response;
+		return ResponseHelper::json(["Vouchers not found"], $response, 400);
 	}
 }
