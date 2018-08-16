@@ -17,12 +17,15 @@
 ## Sample Request:
 - URL: http://localhost/voucher_pool/public/vouchers/generate
 - METHOD: GET
-- JSON REQUEST: {"amount":"230"}
+- JSON REQUEST: {"Vouchers generated succesfully"}
+
+## API Postman Data
+Import postman sample data file from "postman" directory in project
 
 ## Tests
 Go to project directory in terminal and execute below command:
 
-> $ vendor/bin/phpunit
+> $ ./vendor/bin/phpunit ./tests/Functional/VouchersTest.php
 
 ## API Documentation
 API documentation is provided inside apidoc/index.html file for details
@@ -31,4 +34,6 @@ Note: You may also regenerate by using below command:
 
 > $ sudo npm install apidoc -g   # If not already installed
 
-> $ apidoc -i app/Http/Controllers/ -o apidoc/
+> $ apidoc -i ./src/Controllers/ -o apidoc/
+
+- API Doc URL: http://localhost/voucher_pool/apidoc/
