@@ -1,0 +1,165 @@
+{
+	"variables": [],
+	"info": {
+		"name": "VoucherPool",
+		"_postman_id": "1f1a4311-b6a5-c010-56eb-c9e27d5fd430",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Recipient Create",
+			"request": {
+				"url": "http://localhost/voucher_pool/public/recipient",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Malik\", \"email\": \"malik@test.com\" }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Voucher",
+			"request": {
+				"url": {
+					"raw": "http://localhost/voucher_pool/public/vouchers/generate?discount=10&expire_at=2018-10-10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"voucher_pool",
+						"public",
+						"vouchers",
+						"generate"
+					],
+					"query": [
+						{
+							"key": "discount",
+							"value": "10",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "expire_at",
+							"value": "2018-10-10",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Malik\", \"email\": \"malik@test.com\" }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Redeem Vouchers",
+			"request": {
+				"url": {
+					"raw": "http://localhost/voucher_pool/public/voucher?code=ab228001&email=malik@test.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"voucher_pool",
+						"public",
+						"voucher"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "ab228001",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "email",
+							"value": "malik@test.com",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Malik\", \"email\": \"malik@test.com\" }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Vouchers List By Email",
+			"request": {
+				"url": {
+					"raw": "http://localhost/voucher_pool/public/vouchers/byemail?email=saad@test.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"voucher_pool",
+						"public",
+						"vouchers",
+						"byemail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "saad@test.com",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Malik\", \"email\": \"malik@test.com\" }"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

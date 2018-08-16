@@ -11,12 +11,43 @@ use VoucherPool\Models\VoucherRecipientModel;
 
 class VouchersController
 {
+	/**
+     * @api {get} /vouchers/generate VoucherGenerate
+     * @apiVersion 1.0.0
+     * @apiName VoucherGenerate
+	 * @apiGroup Vouchers
+     * @apiHeader {String} Content-Type application/json.
+     *
+     * @apiParam {number} discount required.
+	 * @apiParam {date} expire_at required.
+     * 
+     * @apiParamExample Request-Example:
+     *     {
+     *      "discount" : 10,
+	 *      "expire_at" : "2018-10-10",
+     *     }
+     *
+     * @apiErrorExample Error-Response: 
+     *     HTTP/1.1 400 Bad Request
+     *   ["InvalidArgumentException"]
+     *
+     * @apiErrorExample Error-Response: 
+     *     HTTP/1.1 404 Not Found
+     *   ["NoteUnavailableException"]
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *   [
+     *     "Vouchers generated succesfully"
+     *   ] 
+     *
+     */
     public static function generate(Request $request, Response $response)
 	{
 		$queryData = $request->getQueryParams();
 		if(empty($queryData['discount']) || empty($queryData['expire_at']))
 		{
-			$response = ResponseHelper::json(["Discount and expire date are required"], $response);
+			$response = ResponseHelper::json(["Discount and expire date are required"], $response, 400);
 			return $response;
 		}
 
@@ -55,13 +86,46 @@ class VouchersController
 		return $response;
 	}
 
+
+	/**
+     * @api {get} /voucher VoucherRedeem
+     * @apiVersion 1.0.0
+     * @apiName Recipient
+	 * @apiGroup Vouchers
+     * @apiHeader {String} Content-Type application/json.
+     *
+     * @apiParam {string} code required.
+	 * @apiParam {string} email required.
+     * 
+     * @apiParamExample Request-Example:
+     *     {
+     *      "code" : "a5F128Vu",
+	 *      "email" : "saad@test.com",
+     *     }
+     *
+     * @apiErrorExample Error-Response: 
+     *     HTTP/1.1 400 Bad Request
+     *   ["InvalidArgumentException"]
+     *
+     * @apiErrorExample Error-Response: 
+     *     HTTP/1.1 404 Not Found
+     *   ["NoteUnavailableException"]
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *   [
+     *     "percentage" : "10"
+     *   ] 
+     *
+     */
+
 	public static function redeem(Request $request, Response $response)
 	{
 		$queryData = $request->getQueryParams();
 
 		if(empty($queryData['email']) || empty($queryData['code']))
 		{
-			$response = ResponseHelper::json(["Email and code are required"], $response);
+			$response = ResponseHelper::json(["Email and code are required"], $response, 400);
 			return $response;
 		}
 
@@ -84,17 +148,53 @@ class VouchersController
 			return $response;
 		}
 
-		$response = ResponseHelper::json(["Voucher not found"], $response);
+		$response = ResponseHelper::json(["Voucher not found"], $response, 400);
 		return $response;
 	}
 	
+	/**
+     * @api {get} /vouchers/byemail VoucherByEmail
+     * @apiVersion 1.0.0
+     * @apiName VoucherByEmail
+	 * @apiGroup Vouchers
+     * @apiHeader {String} Content-Type application/json.
+     *
+	 * @apiParam {string} email required.
+     * 
+     * @apiParamExample Request-Example:
+     *     {
+	 *      "email" : "saad@test.com",
+     *     }
+     *
+     * @apiErrorExample Error-Response: 
+     *     HTTP/1.1 400 Bad Request
+     *   ["InvalidArgumentException"]
+     *
+     * @apiErrorExample Error-Response: 
+     *     HTTP/1.1 404 Not Found
+     *   ["NoteUnavailableException"]
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *   [
+	 * 		{
+     *     		"voucher" : "a5F128Vu",
+	 * 	   		"discount" : "10%"
+     *   	},
+	 * 		{
+     *     		"voucher" : "h11C76kn",
+	 * 	   		"discount" : "20%"
+     *   	}
+	 * 	 ] 
+     *
+     */
 	public static function ByEmail(Request $request, Response $response)
 	{
 		$queryData = $request->getQueryParams();
 
 		if(empty($queryData['email']))
 		{
-			$response = ResponseHelper::json(["Email is required"], $response);
+			$response = ResponseHelper::json(["Email is required"], $response, 400);
 			return $response;
 		}
 
@@ -119,7 +219,7 @@ class VouchersController
 			return $response;
 		}
 
-		$response = ResponseHelper::json(["Vouchers not found"], $response);
+		$response = ResponseHelper::json(["Vouchers not found"], $response, 400);
 		return $response;
 	}
 }

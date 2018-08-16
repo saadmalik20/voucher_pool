@@ -1,0 +1,9 @@
+{
+    "name": "Voucher Pool Api",
+    "version": "1.0.0",
+    "description": "Voucher Pool Api",
+    "apidoc": {
+        "title": "Custom apiDoc browser title",
+        "url" : "https://api.github.com/v1"
+    }
+}
